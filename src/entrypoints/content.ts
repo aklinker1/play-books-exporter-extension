@@ -127,7 +127,7 @@ async function exportAll(): Promise<void> {
   checkAborted();
 
   // Uncomment to test a sample
-  cards = cards.slice(421, 422)
+  // cards = cards.slice(0, 1)
 
   const db = await openDb()
   for (let i = 0; i < cards.length; i++) {
@@ -186,6 +186,12 @@ export async function exportCard(db: Db, card: HTMLElement): Promise<void> {
 
   const rating = dataJson.aggregateRating?.ratingValue;
   const reviews = dataJson.aggregateRating?.ratingCount
+
+  // TODO: support audiobooks
+  if (type === "book") {
+    logger.warn(`Ebooks not supported: "${title}"`)
+    return;
+  }
 
   let itemCount = 0;
   await runInMenu(card, async (items) => {
@@ -295,6 +301,7 @@ async function exportFromCardMenu(
 ) {
   let time: number;
   if (item.textContent.trim().toLowerCase() === "export") {
+    // Download audiobooks in high-quality
     item.click();
     time = Date.now();
     const downloadButton = await waitForElement<HTMLButtonElement>(
@@ -303,6 +310,7 @@ async function exportFromCardMenu(
     );
     downloadButton.click();
   } else {
+    // Supplemental PDFs don't have a quality option
     time = Date.now();
     item.click();
   }

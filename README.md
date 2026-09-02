@@ -49,5 +49,6 @@ Install the dev folder in your browser manually, you can reload the extension vi
 - At least download the ACSM file for EPUBs
 - PDF support
 - Parallelize the downloads, allow for downloading more than 1 file at a time
+- Grab book description
 
 Feel free to implement and open a PR for any of these.
